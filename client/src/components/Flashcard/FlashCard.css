@@ -1,8 +1,9 @@
-.card-nav{
-    width : 20vw;
+.card {
+    /*color:cadetblue;*/
     background-color: cadetblue;
+    width: 50vw;
     margin-top: 50px;
-    margin-left: 50px;
+    margin-left: 10px;
     padding-top: 20px;
     padding-bottom: 20px;
 
