@@ -1,22 +1,30 @@
-import logo from './logo.svg';
+
 import './App.css';
 import Topbar from "./components/Topbar/Topbar.js"
 import CardNavigation from './components/CardNavigation/CardNavigation.js';
 import React from 'react';
 import Flashcard from './components/Flashcard/FlashCard';
-//import   './Topbar.css';
+import Button from './components/Button/Button.js';
+
+const controls =["Back","Flip","Next"]
+
 function App() {
   return(
     <React.Fragment>
       <Topbar/>
-      <div style = {{display: "flex"}}>
+      <div className='container'>
         <CardNavigation/>
-        <Flashcard/>
+        <div className='card'>
+          <Flashcard/>
+          <div className='card-controls'>
+            {controls.map((control) =>{
+              return <Button>{control}</Button>
+            })}
+
+          </div>
+        </div>
       </div>
-
     </React.Fragment>
-    
-
   ) 
   //{
   //   <div className="App">

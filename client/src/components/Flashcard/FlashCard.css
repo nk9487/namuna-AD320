@@ -1,10 +1,16 @@
-.card {
+.Fcard {
     /*color:cadetblue;*/
-    background-color: cadetblue;
-    width: 50vw;
+    background-color: candetblue;
+    width: 600px;
+    height: 200px;
     margin-top: 50px;
-    margin-left: 10px;
-    padding-top: 20px;
-    padding-bottom: 20px;
-
+    margin-left: 50px;
+    display: flex;
+}
+.Fcard > img{
+    margin: 10px;
+}
+p {
+    color: antiquewhite;
+    margin: 10;
 }
