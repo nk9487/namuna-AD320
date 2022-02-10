@@ -1,7 +1,7 @@
 .Fcard {
-    /*color:cadetblue;*/
+    border-radius: 1%;
     background-color: cadetblue;
-    width: 600px;
+    width: 800px;
     height: 200px;
     margin-top: 50px;
     margin-left: 50px;
