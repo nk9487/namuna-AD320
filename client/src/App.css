@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  width: 100vw;
+  justify-content: middle;
+  
+  background-image: url(https://placekitten.com/100/100);
+  background-blend-mode: color-burn;
+}
+.card{
+  border-radius: 1%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.card-controls{
+  margin-top: 10px;
+  margin-left: 50px;
+  color: antiquewhite(22, 116, 19);
+  width:20vw;
+  justify-content: space-evenly;
+  display: flex;
+}
