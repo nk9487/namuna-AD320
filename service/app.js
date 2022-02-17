@@ -9,7 +9,7 @@ const port = 8000
 
 // Connect to MongoDB
 
-const connectionString = `mongodb+srv://ngk:${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.mvxpr.mongodb.net/Note Card?retryWrites=true&w=majority`
+const connectionString = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.mvxpr.mongodb.net/FlashCard?retryWrites=true&w=majority`
 try {
   await mongoose.connect(connectionString)
 } catch (err) {
@@ -18,7 +18,7 @@ try {
 
 // Middleware
 
-/*const exampleMiddleware = (req, res, next) => {
+const exampleMiddleware = (req, res, next) => {
   console.log('example middleware')
   next()
 }
@@ -33,7 +33,7 @@ app.get('/', (req, res) => {
   res.send('Hello, world!')
 })
 
-/*app.get('/decks/:id/cards', async (req, res) => {
+app.get('/decks/:id/cards', async (req, res) => {
   const limit = req.query.limit
   const deck = await Deck.findById(req.params.id)
   if (deck) {
@@ -91,7 +91,7 @@ app.post('/cards', async (req, res) => {
     console.log(`error in creating card ${err}`)
     res.sendStatus(502)
   }
-})*/
+})
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}!`)
