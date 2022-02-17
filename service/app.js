@@ -2,7 +2,7 @@ import express from 'express'
 import mongoose from 'mongoose'
 import cors from 'cors'
 
-//import { Deck } from './models/Deck.js'
+import { Deck } from './models/Deck.js'
 
 const app = express()
 const port = 8000
@@ -33,7 +33,35 @@ app.get('/', (req, res) => {
   res.send('Hello, world!')
 })
 
-app.get('/decks/:id/cards', async (req, res) => {
+app.get('/decks', (req, res) => {
+  res.sendStatus(404)
+})
+
+app.get('/decks/:id/cards', (req, res) => {
+  const cards = await Deck.findId(req.params.id)
+  console.log('request id ', req.params.id)
+  res.sendStatus(503)
+})
+
+//get by card by ID
+//get all card
+//get deck by ID
+//get deck by user
+//create a deck 
+//create card
+//create user
+
+//update card
+//update deck
+//update user
+
+//delete card
+//delete card and deck all
+//delete user
+
+
+
+/*app.get('/decks/:id/cards', async (req, res) => {
   const limit = req.query.limit
   const deck = await Deck.findById(req.params.id)
   if (deck) {
@@ -91,7 +119,7 @@ app.post('/cards', async (req, res) => {
     console.log(`error in creating card ${err}`)
     res.sendStatus(502)
   }
-})
+})*/
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}!`)
