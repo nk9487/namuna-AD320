@@ -1,5 +1,5 @@
 import React from 'react'
-import "./CardNavigation.css"
+import './CardNavigation.css'
 var cardLinks = ["Card A", "Card B","Card C","Card D","Card E","Card F", ]
 function CardNavigation(){
 return(
