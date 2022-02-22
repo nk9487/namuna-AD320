@@ -1,5 +1,5 @@
-import React from "react";
-import "./FlashCard.css"
+import React from 'react';
+import './FlashCard.css'
 function Flashcard(){
     return <div className = "Fcard">
         <img src = "https://placekitten.com/200/200" />
