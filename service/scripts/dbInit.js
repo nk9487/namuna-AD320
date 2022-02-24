@@ -3,6 +3,7 @@ import { Deck } from '../models/Deck.js'
 
 import decks from '../testData/decks.json'
 import cards from '../testData/cards.json'
+import users from '../testData/users.json'
 
 const sleepAndQuit = new Promise((resolve) => {
   setTimeout(() => {
@@ -20,6 +21,7 @@ const initDB = async () => {
   }
 
   const deckDocs = []
+  const usersDoc = []
 
   for (const deck of decks) {
     const newDeck = await Deck.create({
@@ -34,6 +36,17 @@ const initDB = async () => {
     deckDocs[card.deck_id % 10].cards.push({
       frontImage: card.front_image,
       frontText: card.front_text,
+      backImage: card.back_image,
+      backText: card.back_text
+    })
+    deckDocs[card.deck_id % 10].size++
+  }
+
+  //filling up users
+  for (const users of decks) {
+    userDocs[users.deck_id % 10].users.push({
+      firstName: card.front_image,
+      lastName: card.front_text,
       backImage: card.back_image,
       backText: card.back_text
     })

@@ -3,6 +3,7 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 
 import { Deck } from './models/Deck.js'
+import { Users} from './models/User.js'
 
 //start the server
 const app = express()
@@ -79,32 +80,16 @@ app.get('/decks/:userId/deckCards', async (req, res) => {
     res.sendStatus(404)
   }
 })
-//create a deck 
-//create card
-//create user
 
-//update card
-//update deck
-//update user
-
-//delete card
-//delete card and deck all
-//delete user
-
-
-
-//=========================================================================================//
-
+//==========================================Create Card============================================================================
 const isUrl = (value) => {
   const re = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/
   return re.test(value)
 }
 
-
-//==========================================Create Card============================================================================
-app.post('/cards', async (req, res) => {
+app.post('/createCards', async (req, res) => {
   const cardRequest = req.body
-  
+  console.log(cardRequest)
   if ((!cardRequest.frontImage && !cardRequest.frontText) || 
     (!cardRequest.backImage && !cardRequest.backText)) {
     res.status(400).send('Card data incomplete')
@@ -120,14 +105,16 @@ app.post('/cards', async (req, res) => {
 
   try {
     const deck = await Deck.findById(cardRequest.deckId)
+    
     if (deck) {
-      deck.cards.push({
+      deck.createCards.push({
         frontImage: cardRequest.frontImage,
         frontText: cardRequest.frontText,
         backImage: cardRequest.backImage,
         backText: cardRequest.backText
       })
-      await deck.save()
+       deck.save()
+      
       res.sendStatus(204)
     } else {
       res.sendStatus(404)
@@ -137,6 +124,197 @@ app.post('/cards', async (req, res) => {
     res.sendStatus(502)
   }
 })
+
+//===============================================create deck===========================================================================
+app.post('/createDeck', async (req, res) => {
+  const userRequest = req.body
+  console.log(userRequest)
+  if(deck){
+    
+  }
+    try {
+      const deck = await Deck.create(userRequest)
+      const result = await deck.save()
+      return res.sendStatus(200)
+    } catch (error) {
+      console.log("error creating decks")
+    }
+
+})
+
+//===============================================create user===========================================================================
+
+app.post("/createUser", async (req, res) => {
+  try {
+    const user = await User.create(req.body)
+    const result = await user.save()
+    console.log(user)
+    return res.status(201).json({
+      msg: "created"
+
+  })
+  } catch (error) {
+    console.log(error)
+  }
+})
+
+
+
+//==========================================Delete Card============================================================================
+
+app.post('/:id/cards', async (req, res) => {
+  const cardRequest = req.body
+  console.log(cardRequest)
+  if ((!cardRequest.frontImage && !cardRequest.frontText) || 
+    (!cardRequest.backImage && !cardRequest.backText)) {
+    res.status(400).send('Card data incomplete')
+  }
+
+  if ((frontImage && !isUrl(frontImage)) || (backImage && !isUrl(backImage))) {
+    res.status(400).send('Image fields must be valid URLs')
+  }
+
+  if (!cardRequest.deckId) {
+    res.status(400).send('Deck ID is required')
+  }
+
+  try {
+    const deck = await Deck.findById(cardRequest.deckId)
+    
+    if (deck) {
+      deck.cards.push({
+        frontImage: cardRequest.frontImage,
+        frontText: cardRequest.frontText,
+        backImage: cardRequest.backImage,
+        backText: cardRequest.backText
+      })
+       deck.save()
+      
+      res.sendStatus(204)
+    } else {
+      res.sendStatus(404)
+    }
+  } catch (err) {
+    console.log(`error in creating card ${err}`)
+    res.sendStatus(502)
+  }
+})
+
+
+
+
+
+
+//=======================================update card=================================================================================
+
+
+
+app.put('/updatecard/:Id', async (req, res) => {
+  const cardRequest = req.body
+
+  try {
+    const deck = await Deck.findById(cardRequest.deckId)
+    if (deck) {
+      deck.cards.forEach(card => {
+        if(card._id == req.params.cardId) {
+          card.frontImage = cardRequest.frontImage,
+          card.frontText = cardRequest.frontText,
+          card.backImage = cardRequest.backImage,
+          card.backText = cardRequest.backText
+        }
+      });
+      await deck.save()
+      res.sendStatus(200)
+    } else {
+      res.sendStatus(404)
+    }
+  } catch (err) {
+    console.log(`error in updating`)
+    res.sendStatus(404)
+  }
+})
+//==================================================update deck=======================================================================
+
+app.put("/updateDeck/:id", async (req, res) => {
+  const deck = await Deck.findById(req.params.id)
+  try {
+   
+    if(deck) {
+      deck.name = req.body.name
+      if(req.body.cards) {
+        deck.cards = req.body.cards
+        deck.cards = req.body.size
+      }
+      if(req.body.userId) {
+        deck.userId = req.body.userId
+      }
+    } else {
+      return res.status(404).json({
+        error: "deck does not exists"
+      })
+    }
+    const result = await deck.save()
+    return res.status(200).json({
+      msg: result
+  })
+  } catch (error) {
+    console.log('error creating deck')
+  }
+})
+//update user
+
+//=====================================================delete card========================================================================
+
+
+// delete card
+app.delete('/deletecard/:deckId/:cardId', async (req, res) => {
+
+  const deck = await Deck.findById(req.params.deckId)
+
+  try {
+    
+    if (deck) {
+      deck.cards.forEach(card => {
+        if(card._id == req.params.cardId) {
+          card.remove()
+        }
+      });
+      await deck.save()
+      res.sendStatus(200)
+    } else {
+      res.sendStatus(404)
+    }
+  } catch (err) {
+    console.log(`error in removing card`)
+    res.sendStatus(400)
+  }
+})
+
+//=============================================delete card and deck all============================================================
+// delete card
+app.delete('/deleteDeck/:deckId', async (req, res) => {
+  try {
+    const deck = await Deck.findById(req.params.id)
+    if(deck) {
+      await deck.remove()
+      
+    } 
+  } catch (error) {
+    console.log('deleting deck')
+    res.sendStatus(400)
+  }
+})
+
+//delete user
+
+
+
+//=========================================================================================//
+
+
+
+
+
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}!`)
