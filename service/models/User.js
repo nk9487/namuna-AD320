@@ -4,7 +4,7 @@ import mongoose from 'mongoose'
 const User = new mongoose.Schema({
   firstName: String,
   lastName: String,
-  userId:  mongoose.Types.ObjectId
+  userId:  String
 })
 
-export const Users = mongoose.model('User', User)
+export const userInfo = mongoose.model('userInfo', User)

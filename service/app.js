@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 
 import { Deck } from './models/Deck.js'
-import { Users} from './models/User.js'
+import { userInfo} from './models/User.js'
 
 //start the server
 const app = express()
@@ -143,71 +143,47 @@ app.post('/createDeck', async (req, res) => {
 })
 
 //===============================================create user===========================================================================
-
+//i beliieve this wont be pushed since we have not created the user on mongodb
 app.post("/createUser", async (req, res) => {
+  const user = await userInfo.create(req.params.createUsers)
   try {
-    const user = await User.create(req.body)
-    const result = await user.save()
-    console.log(user)
-    return res.status(201).json({
-      msg: "created"
-
-  })
-  } catch (error) {
-    console.log(error)
-  }
-})
-
-
-
-//==========================================Delete Card============================================================================
-
-app.post('/:id/cards', async (req, res) => {
-  const cardRequest = req.body
-  console.log(cardRequest)
-  if ((!cardRequest.frontImage && !cardRequest.frontText) || 
-    (!cardRequest.backImage && !cardRequest.backText)) {
-    res.status(400).send('Card data incomplete')
-  }
-
-  if ((frontImage && !isUrl(frontImage)) || (backImage && !isUrl(backImage))) {
-    res.status(400).send('Image fields must be valid URLs')
-  }
-
-  if (!cardRequest.deckId) {
-    res.status(400).send('Deck ID is required')
-  }
-
-  try {
-    const deck = await Deck.findById(cardRequest.deckId)
-    
-    if (deck) {
-      deck.cards.push({
-        frontImage: cardRequest.frontImage,
-        frontText: cardRequest.frontText,
-        backImage: cardRequest.backImage,
-        backText: cardRequest.backText
+    const result = await user
+    if (result){
+      result.createUsers.push({
+          firstName:user.firstName,
+          lastName :user.lastName,
+          userId:   user.userId
       })
-       deck.save()
-      
-      res.sendStatus(204)
-    } else {
+      result.save()
+      console.log(user)
+     return res.status(201)
+    }else{
       res.sendStatus(404)
     }
-  } catch (err) {
-    console.log(`error in creating card ${err}`)
-    res.sendStatus(502)
+  } catch (error) {
+    console.log('user not created')
   }
 })
 
+//==========================================Delete user============================================================================
 
-
-
-
+app.post('"/deleteUser/:id"', async (req, res) => {
+  const user = await userInfo.findById(req.params.id)
+  try {
+    if(user) {
+      await user.remove()
+      res.sendStatus(200)
+    } else {
+       res.status(404)
+    }
+  } catch (error) {
+     res.status(404).json({
+    error: "user does not exists"
+    })
+  }
+})
 
 //=======================================update card=================================================================================
-
-
 
 app.put('/updatecard/:Id', async (req, res) => {
   const cardRequest = req.body
@@ -261,16 +237,12 @@ app.put("/updateDeck/:id", async (req, res) => {
     console.log('error creating deck')
   }
 })
-//update user
 
 //=====================================================delete card========================================================================
 
-
-// delete card
 app.delete('/deletecard/:deckId/:cardId', async (req, res) => {
 
   const deck = await Deck.findById(req.params.deckId)
-
   try {
     
     if (deck) {
@@ -284,20 +256,18 @@ app.delete('/deletecard/:deckId/:cardId', async (req, res) => {
     } else {
       res.sendStatus(404)
     }
-  } catch (err) {
+  } catch (error) {
     console.log(`error in removing card`)
     res.sendStatus(400)
   }
 })
 
 //=============================================delete card and deck all============================================================
-// delete card
 app.delete('/deleteDeck/:deckId', async (req, res) => {
+  const deck = await Deck.findById(req.params.id)
   try {
-    const deck = await Deck.findById(req.params.id)
     if(deck) {
       await deck.remove()
-      
     } 
   } catch (error) {
     console.log('deleting deck')
@@ -305,16 +275,7 @@ app.delete('/deleteDeck/:deckId', async (req, res) => {
   }
 })
 
-//delete user
-
-
-
 //=========================================================================================//
-
-
-
-
-
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}!`)
