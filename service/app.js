@@ -33,14 +33,9 @@ app.use(exampleMiddleware)
 app.get('/', (req, res) => {
   res.send('Hello, world!')
 })
-
-app.get('/decks', (req, res) => {
-  res.sendStatus(404)
-})
 //==============================Get Deck by ID ==============================//
 
 app.get('/decks/:id/cards', async (req, res) => {
-  console.log('request id ', req.params.id)
   const limit = req.query.limit
   console.log('query param limit ', limit)
   const deck = await Deck.findById(req.params.id)
@@ -65,9 +60,6 @@ app.get('/cards/:id', cardsById)
 
 app.get('/decks/:userId/deckCards', async (req, res) => {
   console.log('user ID ', req.params.userId)
-  //const limit = req.query.limit
-  //console.log('query param limit ', limit)
-  //const deck = await Deck.findById(req.params.userId)
   const deck = await Deck.findOne({
     'cards.userId': req.params.userId
   })
@@ -87,7 +79,7 @@ const isUrl = (value) => {
   return re.test(value)
 }
 
-app.post('/createCards', async (req, res) => {
+app.post('/cards', async (req, res) => {
   const cardRequest = req.body
   console.log(cardRequest)
   if ((!cardRequest.frontImage && !cardRequest.frontText) || 
@@ -237,6 +229,7 @@ app.put("/updateDeck/:id", async (req, res) => {
     console.log('error creating deck')
   }
 })
+
 
 //=====================================================delete card========================================================================
 
