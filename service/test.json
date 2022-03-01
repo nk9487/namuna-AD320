@@ -1,0 +1,317 @@
+{
+	"info": {
+		"_postman_id": "53c2d03e-20bf-441c-b833-c7d9bed23d8f",
+		"name": "FlashCardTest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8000",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/decks",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/decks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"decks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/decks/620f0f1ed1bf90e8d58394a7/cards",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/decks/620f0f1ed1bf90e8d58394a7/cards",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"decks",
+						"620f0f1ed1bf90e8d58394a7",
+						"cards"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/decks/620f0f1ed1bf90e8d58394a9/deckCards",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/decks/620f0f1ed1bf90e8d58394a9/deckCards",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"decks",
+						"620f0f1ed1bf90e8d58394a9",
+						"deckCards"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/cards",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"frontImage\": \"https://placekitten.com/200/200\",\r\n\"frontText\": \"This is front\",\r\n\"backImage\": \"https://placekitten.com/200/200\",\r\n\"backText\": \"This is back\",\r\n\"deckID\": \"620f0f1ed1bf90e8d58394a7\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/cards",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"cards"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/createUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"test\",\r\n    \"lastName\" : \"test\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/createUser",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"createUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/createDeck",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"name\":\"Deck Name\",\r\n\"size\": \"2\",\r\n\"userID\": \"620f0f1ed1bf90e8d58394a6\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/createDeck",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"createDeck"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/updateCard/620f0f1fd1bf90e8d58394ca",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"frontImage\": \"https://placekitten.com/200/200\",\r\n\"frontText\": \"This is front\",\r\n\"backImage\": \"https://placekitten.com/200/200\",\r\n\"backText\": \"This is back\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/updateCard/620f0f1fd1bf90e8d58394ca",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"updateCard",
+						"620f0f1fd1bf90e8d58394ca"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/updateDeck/620f0f1ed1bf90e8d58394a7",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"name\":\"New Name\",\r\n\"size\": \"2\",\r\n\"userID\": \"620f0f1ed1bf90e8d58394a6\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/updateDeck/620f0f1ed1bf90e8d58394a7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"updateDeck",
+						"620f0f1ed1bf90e8d58394a7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/updateDeck/620f0f1fd1bf90e8d58394c2/620f0f1fd1bf90e8d58394d0",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/updateDeck/620f0f1fd1bf90e8d58394c2/620f0f1fd1bf90e8d58394d0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"updateDeck",
+						"620f0f1fd1bf90e8d58394c2",
+						"620f0f1fd1bf90e8d58394d0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/deleteDeck/620f0f1fd1bf90e8d58394c2",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/deleteDeck/620f0f1fd1bf90e8d58394c2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"deleteDeck",
+						"620f0f1fd1bf90e8d58394c2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/createUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\":\"Alex\",\r\n    \"lastName\" : \"Getahun\",\r\n    \"userId\":\"123456789\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/createUser",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"createUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/deleteUser/620f0f1fd1bf90e8d58394af",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/deleteUser/620f0f1fd1bf90e8d58394af",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"deleteUser",
+						"620f0f1fd1bf90e8d58394af"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
