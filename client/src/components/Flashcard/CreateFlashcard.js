@@ -3,16 +3,68 @@ import { Button, Stack, TextField } from "@mui/material"
 import axios from 'axios'
 
 const CreateFlashcard = ({ userId, deckId }) => {
+
   // how can we use state here to make sure we're validating info
   console.log(`[CreateFlashcard] deckId is ${deckId}`)
-  const [formValue, setFormValue] = useState({})
+  const [formValue, setFormValue] = useState({frontImage : '', frontText : '', backImage: '', backText: '',
+                                              frontImageError : '', frontTextError : '', backImageError : '', backTextError : '' })
+  /*const frontImage = formValue.frontImage
+  const frontText = formValue.frontText
+  const backImage = formValue.backImage
+  const backText = formValue.backText*/
 
+
+  // helper function to validate if its a url not used yet
+  const isUrl = (value) => {
+    const re = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/
+    return re.test(value)
+
+
+  }
+
+  //validate form
+  validateForm = () => {
+
+    const frontImageError = '';
+    const frontTextError = '';
+    const backImageError = '';
+    const backTextError = '';
+
+    if (this.useState.frontImage){
+      frontImageError = 'Enter image url'
+    }
+
+    if (this.useState.backImage){
+      backImageError = 'Enter image url'
+    }
+
+    if (this.useState.frontText){
+      frontTextError = 'Enter front imgage description'
+
+    }
+
+    if (this.useState.backText){
+      backTextError = 'Enter back image description'
+    }
+    if (frontImageError || backImageError || frontTextError || backImageError){
+      this.useState({
+        frontImageError,backImageError,frontTextError, backTextError
+      });
+      return false;
+    }
+    return true
+
+  }
+  
   const handleChange = (event) => {
-    event.preventDefault()
-    console.log("[CreateFlashcard] onChange ", event)
-    const currentValues = formValue
-    currentValues[event.target.name] = event.target.value
-    setFormValue(currentValues)
+    if(validateForm){
+      event.validateForm
+      event.preventDefault()
+      console.log("[CreateFlashcard] onChange ", event)
+      const currentValues = formValue
+      currentValues[event.target.name] = event.target.value
+      setFormValue(currentValues)
+    }
   }
   
   const handleSubmit = async (event) => {
