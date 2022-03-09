@@ -54,6 +54,8 @@ app.post(
   '/decks/:id/cards',
   body('frontImage').isURL(),
   body('frontText').not().isEmpty(),
+  body('backImage').isURL(),
+  body('backText').not().isEmpty(),
   createCard
 )
 
@@ -63,6 +65,8 @@ app.get('/users/:id', notImplemented)
 app.post('/users', notImplemented)
 app.put('/users/:id', notImplemented)
 app.delete('/users/:id', notImplemented)
+
+
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}!`)
