@@ -1,50 +1,30 @@
-
-import './App.css';
-import Topbar from "./components/Topbar/Topbar.js"
-import CardNavigation from './components/CardNavigation/CardNavigation.js';
-import React from 'react';
-import Flashcard from './components/Flashcard/FlashCard';
-import Button from './components/Button/Button.js';
-
-const controls =["Back","Flip","Next"]
+import React, { useEffect, useState } from 'react'
+import Container from '@mui/material/Container'
+import './App.css'
+import Topbar from './components/Topbar/Topbar'
+import DeckProvider from './components/Deck/DeckProvider'
+import axios from 'axios'
 
 function App() {
-  return(
-    <React.Fragment>
-      <Topbar/>
-      <div className='container'>
-        <CardNavigation/>
-        <div className='card'>
-          <Flashcard/>
-          <div className='card-controls'>
-            {controls.map((control) =>{
-              return <Button>{control}</Button>
-            })}
+  const [createMode, setCreateMode] = useState(false)
+  const [user, setUser] = useState(null)
 
-          </div>
-        </div>
-      </div>
+  useEffect(() => {
+    axios.get('http://localhost:8000/users').then((response) => {
+      console.log(`response from users ${response.data[0].firstName}`)
+      setUser(response.data[0])
+    })
+  }, [])
+
+  return (
+    <React.Fragment>
+      <Topbar createMode={createMode} createCardHandler={() => { setCreateMode(!createMode) }} />
+      <Container width="lg">
+        {user === null ? <span>Loading...</span> :
+          <DeckProvider userId={user._id} decks={user.decks} createMode={createMode} /> }
+      </Container>
     </React.Fragment>
-  ) 
-  //{
-  //   <div className="App">
-  //     <header className="App-header">
-  //       <img src={logo} className="App-logo" alt="logo" />
-  //       <p>
-  //         Edit <code>src/App.js</code> and save to reload.
-  //       </p>
-  //       <a
-  //         className="App-link"
-  //         href="https://reactjs.org"
-  //         target="_blank"
-  //         rel="noopener noreferrer"
-  //       >
-  //         Learn React
-  //       </a>
-  //     </header>
-  //   </div>
-  // );
-  
+  )
 }
 
 export default App;
