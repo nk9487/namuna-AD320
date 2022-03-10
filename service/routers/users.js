@@ -4,13 +4,35 @@ import { User } from '../models/User.js'
 const usersRouter = Router()
 
 const getUsers = async (req, res) => {
-  const users = await User.find({})
-  res.send(users)
+  try{
+    const {userId} = req.user
+    const usr = await User.findById(userId)
+  if(usr.role === 'admin' || usr.role === 'superuser'){
+    const foundUser = await User.find()
+    res.send(foundUser)
+  }else{
+    res.sendStatus(403).send('Acess denied, or user not found')
+  }
+}catch (error){
+  console.error(error,'user not found')
+}
 }
 
 const getUsersById = async (req, res) => {
-  const user = await User.findById(req.params.id)
-  res.send(user)
+
+  try{
+      const {userId} = req.user
+      const usr = await User.findById(userId)
+    if(usr.role === 'admin' || usr.role === 'superuser'){
+      const foundUser = await User.findById(req.params.id)
+      res.send(foundUser)
+    }else{
+      res.sendStatus(403).send('Acess denied, or user not found')
+    }
+  }catch (error){
+    console.error(error,'user not found')
+  }
+
 }
 
 const updateUser = async (req, res) => {
