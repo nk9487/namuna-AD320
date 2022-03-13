@@ -4,6 +4,7 @@ import { User } from '../models/User.js'
 
 const decksRouter = Router()
 
+//allowed by anyone 
 const getDecks = async (req, res) => {
   const { userId, other } = req.user
   console.log(`Other data from the token ${other}`)
@@ -19,7 +20,7 @@ const getDecks = async (req, res) => {
     res.sendStatus(500)
   }
 }
-
+// allowed to  all
 const createDeck = async (req, res) => {
   const userId = ''
   const newDeck = req.body
@@ -36,7 +37,7 @@ const createDeck = async (req, res) => {
     res.sendStatus(500)
   }
 }
-
+// allowed to  all
 const createCard = async (req, res) => {
   const userId = ''
   const deckId = req.params.id
@@ -53,35 +54,45 @@ const createCard = async (req, res) => {
     res.sendStatus(500)
   }
 }
-
+//allowed to admin and owner of deck
 const deleteDeck = async (req, res) => {
-  const userId = ''
+  //const userId = ''
+  const { userId } = req.user
   const deckId = req.params.id
-  try {
-    const user = await User.findById(userId)
-    const removedDeck = user.decks.id(deckId).remove()
-    console.log(removedDeck)
-    user.save()
-    res.sendStatus(204)
-  } catch (err) {
-    console.log(`${deleteDeck.name}: ${err}`)
-    res.sendStatus(500)
+  const requestor = await User.findById(userId)
+  if (requestor.role === 'admin' || requestor._id.toString() === req.params.id.toString()){
+    try {
+      const user = await User.findById(userId)
+      const removedDeck = user.decks.id(deckId).remove()
+      console.log(removedDeck)
+      user.save()
+      res.sendStatus(204)
+    } catch (err) {
+      console.log(`${deleteDeck.name}: ${err}`)
+      res.sendStatus(500)
+    }
+  }else{
+    res.sendStatus(403).send('Forbidden')
   }
 }
-
+//Allowed to admin or owner of deck
 const updateDeck = async (req, res) => {
   const userId = ''
   const deckId = req.params.id
   const newDeck = req.body
-  try {
-    const user = await User.findById(userId)
-    const deck = user.decks.id(deckId)
-    deck.name = newDeck.name
-    await user.save()
-    res.sendStatus(204)
-  } catch (err) {
-    console.log(`${updateDeck.name}: ${err}`)
-    res.sendStatus(500)
+  if (requestor.role === 'admin' || requestor._id.toString() === req.params.id.toString()){
+    try {
+      const user = await User.findById(userId)
+      const deck = user.decks.id(deckId)
+      deck.name = newDeck.name
+      await user.save()
+      res.sendStatus(204)
+    } catch (err) {
+      console.log(`${updateDeck.name}: ${err}`)
+      res.sendStatus(500)
+    }
+  }else{
+    res.sendStatus(403).send('Forbidden')
   }
 }
 
