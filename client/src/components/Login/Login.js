@@ -3,6 +3,7 @@ import { Button, Box, TextField, Typography } from '@mui/material'
 import { useAuth } from '../Auth/AuthProvider'
 import { Navigate, useNavigate, useLocation } from 'react-router-dom'
 
+
 const Login = () => {
   const { auth, login } = useAuth()
   const navigate = useNavigate()
@@ -11,7 +12,8 @@ const Login = () => {
   // Assignment: redirect the newly logged in user to the page they were on
   // OR to the User component
 
-  const source = location.state?.from?.pathname || "/app"
+  const source = location.state?.from?.pathname || "/User"
+  const backTologin = location.state?.from?.pathname || "/Login"
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -20,7 +22,7 @@ const Login = () => {
     // the event data itself and an object in React called FormData
     const data = new FormData(event.currentTarget)
     login(data.get('email'), data.get('password'), () => {
-      navigate(source, { replace: true })
+      navigate(source, {replace: true })
     })
   }
 

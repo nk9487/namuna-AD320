@@ -1,11 +1,24 @@
 import React from 'react'
+import { useAuth } from '../Auth/AuthProvider'
 import { Button, Box, TextField, Typography } from '@mui/material'
+import { Navigate, useNavigate, useLocation } from 'react-router-dom'
+
 
 const Register = () => {
+  const { auth, register } = useAuth()
+  const navigate = useNavigate()
+  let location = useLocation()
+
+  const source = location.state?.from?.pathname || "/User"
+  
   // Assignment: use the useAuth hook here to handle registering a new user
   const handleSubmit = (event) => {
     event.preventDefault()
+
     const data = new FormData(event.currentTarget)
+    register(data.get('email'), data.get('password'), () =>{
+      navigate(source, {replace: true})
+    } )
     console.log({
       email: data.get('email'),
       password: data.get('password'),
