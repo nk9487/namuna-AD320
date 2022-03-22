@@ -1,50 +1,33 @@
-
-import './App.css';
-import Topbar from "./components/Topbar/Topbar.js"
-import CardNavigation from './components/CardNavigation/CardNavigation.js';
-import React from 'react';
-import Flashcard from './components/Flashcard/FlashCard';
-import Button from './components/Button/Button.js';
-
-const controls =["Back","Flip","Next"]
+import React, { useEffect, useState } from 'react'
+import Container from '@mui/material/Container'
+import './App.css'
+import DeckProvider from './components/Deck/DeckProvider'
+import axios from 'axios'
+import { useAuth } from './components/Auth/AuthProvider'
 
 function App() {
-  return(
-    <React.Fragment>
-      <Topbar/>
-      <div className='container'>
-        <CardNavigation/>
-        <div className='card'>
-          <Flashcard/>
-          <div className='card-controls'>
-            {controls.map((control) =>{
-              return <Button>{control}</Button>
-            })}
+  const [user, setUser] = useState(null)
 
-          </div>
-        </div>
-      </div>
+  const { auth } = useAuth()
+
+  useEffect(() => {
+    if (auth) {
+      console.log(`[App] useEffect ${auth.token}`) // Don't do this in the real world, obviously
+      axios.get(`http://localhost:8000/users/${auth.user}`, { headers: { authorization: `Bearer ${auth.token}` }}).then((response) => {
+        console.log(`response from users ${response.data.firstName} `, response.data)
+        setUser(response.data)
+      })
+    }
+  }, [auth])
+
+  return (
+    <React.Fragment>
+      <Container width="lg">
+        {user === null ? <span>Loading...</span> :
+          <DeckProvider userId={user._id} decks={user.decks} /> }
+      </Container>
     </React.Fragment>
-  ) 
-  //{
-  //   <div className="App">
-  //     <header className="App-header">
-  //       <img src={logo} className="App-logo" alt="logo" />
-  //       <p>
-  //         Edit <code>src/App.js</code> and save to reload.
-  //       </p>
-  //       <a
-  //         className="App-link"
-  //         href="https://reactjs.org"
-  //         target="_blank"
-  //         rel="noopener noreferrer"
-  //       >
-  //         Learn React
-  //       </a>
-  //     </header>
-  //   </div>
-  // );
-  
+  )
 }
 
 export default App;
