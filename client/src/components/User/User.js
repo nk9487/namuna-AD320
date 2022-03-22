@@ -8,9 +8,10 @@ const User = ({ user }) => {
         <span>{_id}</span>
         <ul>
             {decks.map((deck) => {
-                return <li key={deck._id}>{deck.name}</li>
+                return <li key = {deck._id}>{deck.name}</li>
             })}
         </ul></>
         </>
     )
 }
+export default User
